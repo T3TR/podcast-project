@@ -1,16 +1,20 @@
-import { getData } from "./JS/fetchData.js"
-import { filterByGenre, filterByTitle } from "./JS/helperFunctions.js"
+import { getData } from "./JS/api.js";
+import { filterByGenre, filterByTitle } from "./JS/helperFunctions.js";
+import "./JS/components/allPodcasts.js";
+import "./JS/components/podcastDetail.js"
+import "./JS/components/podcastSeason.js"
+import "./JS/components/podcastEpisode.js"
 
 let showAPI = "https://podcast-api.netlify.app/shows"
 let showData = await getData(showAPI);
 
 
-async function renderSingle(podcastID, podcastImage){
+async function renderSingle(podcastID){
 
   document.querySelector("#app").innerHTML = ""
 
-  let thisShow = `https://podcast-api.netlify.app/id/${podcastID}`
-  await getData(thisShow)
+  let thisShowAPI = `https://podcast-api.netlify.app/id/${podcastID}`
+  let thisShow = await getData(thisShowAPI)
 
   const nav = document.getElementById("nav")
   const home = document.createElement("li")
@@ -25,63 +29,48 @@ async function renderSingle(podcastID, podcastImage){
   console.log(podcastID)
 
   const thisPodcast = document.querySelector("#app")
-  thisPodcast.innerHTML = /*html*/`
+  const podcastDetail = document.createElement('podcast-detail');
+  const { id, title, description, seasons, image, genres, updated } = thisShow
+  podcastDetail.key = id;
+  podcastDetail.label = title;
+  podcastDetail.description = description;
+  podcastDetail.seasons = seasons;
+  podcastDetail.image = image;
+  podcastDetail.genres = genres;
+  podcastDetail.lastUpdated = updated;
 
-    <div>
-      <img src="${podcastImage}">
-    </div>
+  thisPodcast.appendChild(podcastDetail);
 
-  `
 
 }
 
 function renderAll(){
 
-  document.querySelector("#app").innerHTML = ""
+  const podcasts = document.querySelector("#app")
+  podcasts.innerHTML = ""
 
   const nav = document.getElementById("nav");
   nav.removeChild(nav.lastChild)
 
-  for(let i = 0; i < showData.length; i++){
-    const podcasts = document.querySelector("#app");
-    const podcast = document.createElement("div");
-    podcast.id = showData[i].id;
-    podcast.className = "podcast"
-    //console.log(podcast.id)
-    podcast.innerHTML = /*html*/ `
-  
-      <div class="podcastImage">
-        <img src="${showData[i].image}">
-      </div>
-  
-      <div class="title">
-      <p>${showData[i].title}</p>
-      </div>
-  
-      <div class="seasons">
-      <p>SEASON/S : ${showData[i].seasons}</p>
-      </div>
-    `
-    podcasts.appendChild(podcast)
+  showData.forEach(({ id, image, title, seasons }) => {
+    
+    const preview = document.createElement('podcast-preview');
+    preview.key = id
+    preview.image = image
+    preview.label = title
+    preview.seasons = seasons 
 
-    podcast.addEventListener("click", () => {
+    podcasts.appendChild(preview)
+
+    preview.addEventListener("click", () => {
       document.querySelector("#app").innerHTML = "LOADING..."
+      renderSingle(id)
     })
-    podcast.addEventListener("click", () => {
-      renderSingle(podcast.id, showData[i].image)
-    })
-  }
+  })
 
 }
 
 renderAll()
-
-
-
-
-
-
-
 
 
 
