@@ -26,7 +26,17 @@ export class PodcastDetail extends LitElement {
     
     .thisPCTitle {
         text-align: center;
-        font-size: larger;
+        font-size: x-large;
+        margin-bottom: 0;
+    }
+
+    .thisPCTitle p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .thisPCupdated {
+      font-size: small;
     }
     
     .thisPCImage {
@@ -43,24 +53,38 @@ export class PodcastDetail extends LitElement {
         border: 3px solid rgb(80, 80, 80);
         border-radius: 15px;
     }
-    `
 
+    .thisPCSeasons {
+      
+    }
+    `
 
     render() {
       
+      const date = new Date(this.lastUpdated)
+
       return html`
       <div class="wrapper">
+
         <div class="thisPCTitle">
           <p>${this.label}</p>
+          <p class="thisPCupdated">${date.toDateString()}</p>
         </div>
+
         <div class="thisPCImage">
           <img src="${this.image}">
         </div>
+
         <div class="thisPCSeasons">
           ${this.seasons.map(({ season, title, image, episodes }) => html`
-            <season-preview .season=${season} .label=${title} .image=${image} .episodes=${episodes} >  </season-preview>`
-            )}
+            <season-preview 
+            .season=${season} 
+            .label=${title} 
+            .image=${image} 
+            .episodes=${episodes}> </season-preview>`
+          )}
         </div>
+
       </div>
       `;
     }

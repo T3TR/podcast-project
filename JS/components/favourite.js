@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@2/all/lit-all.min.js'
-import { addEpisode, removeEpisode, loadData } from '../helperFunctions.js'
+import { removeEpisode } from '../helperFunctions.js'
 
-export class Episode extends LitElement {
+export class Favourite extends LitElement {
 
     static get properties() {
       return {
@@ -9,13 +9,12 @@ export class Episode extends LitElement {
             description: { type: String },
             episode: { type: Number },
             file: { type: String},
-            isFavourite: { type: Boolean }
+            added: { type: String }
       }
     }
 
     constructor() {
       super();
-      this.isFavourite = false;
     }
     
     static styles = css`
@@ -41,29 +40,22 @@ export class Episode extends LitElement {
       player.load();
     }
 
-    saveEpisode(){
-      addEpisode({ title: this.label, episode: this.episode, file: this.file, description: this.description })
-      this.isFavourite = true
-    }
-
     removeEpisode(){
       removeEpisode({ title: this.label, episode: this.episode, file: this.file, description: this.description })
-      this.isFavourite = false
     }
 
     render(){
 
-      const data = loadData();
-      if(data.find((episode) => episode.savedEpisode.title === this.label && episode.savedEpisode.episode === this.episode)){
-        this.isFavourite = true
-      }
+        const date = new Date(this.added)
 
       return html`
       <div class="wrapper">
-
+        <p>
+          ${date.toDateString()}
+        </p>
         <p>
           <button id="podcast-player" @click="${this.playEpisode}">Play</button>
-          <button id="podcast-player" @click="${this.isFavourite ? this.removeEpisode : this.saveEpisode}">${this.isFavourite ? 'Remove Favourite' : 'Add Favourite'}</button>
+          <button id="podcast-player" @click="${this.removeEpisode}">Remove Favourite</button>
           ${this.label}
         </p>
 
@@ -76,4 +68,4 @@ export class Episode extends LitElement {
     }
 }
 
-customElements.define('episode-preview', Episode)
+customElements.define('favourite-preview', Favourite)

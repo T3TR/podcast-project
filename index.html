@@ -17,21 +17,42 @@
 <body>
 
     <header id="header">
+
         <h1>PODCASTS</h1>
+
         <div>
             <form>
                 <input id="search" type="text" placeholder="Search">
-                <button type="submit">Search</button>
+                <button id="searchButton" type="submit" onclick="onSearchText(event)">Search</button>
             </form>
         </div>
 
+        <div id="navList">
+            <ul id="nav">
+                <select name="sort" id="sort" onchange="onChangeSort(event)">
+                    <option>Filter</option>
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                    <option>Recent-Oldest</option>
+                    <option>Oldest-Recent</option>
+                </select>
+                <select name="sort-favourites" id="sort-favourites" onchange="onChangeFavouriteSort(event)">
+                    <option>Filter</option>
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                    <option>Recent-Oldest</option>
+                    <option>Oldest-Recent</option>
+                </select>
+                <li><button onclick="renderFavouritesPage()">Favorites</button></li>
+            </ul>
+        </div>
+
+        <div>
         <audio id="audio-player" controls>
             <source id="audio-source" src="" type="audio/mp3" />
         </audio>
-        
-        <ul id="nav">
-            <li><button>TEST</button></li>
-        </ul>
+        </div>
+
     </header>
     
     <div id="app"> LOADING... </div>

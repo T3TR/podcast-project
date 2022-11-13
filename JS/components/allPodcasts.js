@@ -7,7 +7,11 @@ export class Podcast extends LitElement {
         key: { type: String },
         image: { type: String },
         label: { type: String },
-        seasons: { type: Number } 
+        seasons: { type: Number },
+        description: { type: String},
+        genres: { type: [String] },
+        lastUpdated: { type: String },
+        sortKey: {type: String }
     }
   }
 
@@ -48,6 +52,7 @@ export class Podcast extends LitElement {
     color: rgb(228, 228, 228);
     width: 10rem auto;
     text-align: center;
+    margin-left: 10rem;
   }
 
   .title p {
@@ -63,23 +68,48 @@ export class Podcast extends LitElement {
   }
   `
 
+  allGenres(genres){  
+    
+    if(genres != undefined ){
+      return genres.filter((genre) => {
+        return genre != "All" && genre != "Featured"
+      })
+    }
+
+    return [];
+  }
+
   render() {
+
     const seasonsText = `${this.seasons} Season${this.seasons > 1 ? 's' : ''}`;
     
     return html`
-        <div class="wrapper">
+        <div id="showsWrapper" class="wrapper">
+
             <div class="image">
-            <img src="${this.image}" />
+              <img src="${this.image}" />
             </div>
+
             <div class="title">
               <p>${this.label}</p>
             </div>
+
             <div class="seasons">
               <p>${seasonsText}</p>
             </div>
+
+            <div class="genres">
+              <ul id="genres">
+              ${this.allGenres(this.genres).map(genre => {
+                return html`<li>${genre}</li>`
+              })}
+              </ul>
+            </div>
+
         </div>
     `
   }
+
 
 }
 

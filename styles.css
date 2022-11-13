@@ -32,11 +32,24 @@ body {
     color: rgb(204, 204, 204);
 }
 
+#navList {
+    text-align: center;
+}
+
 #nav{
     list-style-type: none;
-
+    text-align: center;
+    padding: 0;
 }
 
 #nav li{
     display: inline;
+}
+
+#audio-player {
+    
+}
+
+.hide {
+    display: none;
 }
