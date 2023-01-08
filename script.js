@@ -1,5 +1,5 @@
 import { getData } from "./JS/api.js";
-import { loadData, addEpisode, removeEpisode, onChangeSort, onChangeFavouriteSort } from "./JS/helperFunctions.js";
+import { loadData, addEpisode, removeEpisode, onChangeFavouriteSort } from "./JS/helperFunctions.js";
 import "./JS/components/allPodcasts.js";
 import "./JS/components/podcastDetail.js"
 import "./JS/components/podcastSeason.js"
@@ -9,7 +9,6 @@ import "./JS/components/favourite.js"
 let showAPI = "https://podcast-api.netlify.app/shows"
 let showData = await getData(showAPI);
 
-window.onChangeSort = onChangeSort;
 window.onChangeFavouriteSort = onChangeFavouriteSort;
 
 //renders #app with use of the podcastDetail.js, podcastSeason.js,podcastEpisode.js components
@@ -134,6 +133,59 @@ window.renderFavourites = (data) =>{
 }
 
 renderAll(showData)
+
+window.onChangeSort = (event) => {
+  switch(event.target.value){
+    case 'A-Z':
+      showData.sort((show1, show2) => {
+        if ( show1.title < show2.title ){
+          return -1;
+        }
+        if ( show1.title > show2.title ){
+          return 1;
+        }
+        return 0;
+      });
+      renderAll(showData)
+    break;
+    case 'Z-A':
+      showData.sort((show1, show2) => { 
+        if ( show1.title > show2.title ){
+          return -1;
+        }
+        if ( show1.title < show2.title ){
+          return 1;
+        }
+        return 0;
+       });
+      renderAll(showData)
+    break;
+    case 'Oldest-Recent':
+      showData.sort((show1, show2) => {
+        if ( show1.updated < show2.updated ){
+          return -1;
+        }
+        if ( show1.updated > show2.updated ){
+          return 1;
+        }
+        return 0;
+      });
+      renderAll(showData)
+    break;
+    case 'Recent-Oldest':
+      showData.sort((show1, show2) => {
+        if ( show1.updated > show2.updated ){
+          return -1;
+        }
+        if ( show1.updated < show2.updated ){
+          return 1;
+        }
+        return 0;
+      });
+      renderAll(showData)
+    break;
+  }
+}
 
 window.onSearchText = (event) => {
   event.preventDefault();

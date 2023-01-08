@@ -40,59 +40,6 @@ export function removeEpisode(episode){
   }
 }
 
-export function onChangeSort (event) {
-  switch(event.target.value){
-    case 'A-Z':
-      showData.sort((show1, show2) => {
-        if ( show1.title < show2.title ){
-          return -1;
-        }
-        if ( show1.title > show2.title ){
-          return 1;
-        }
-        return 0;
-      });
-      renderAll(showData)
-    break;
-    case 'Z-A':
-      showData.sort((show1, show2) => { 
-        if ( show1.title > show2.title ){
-          return -1;
-        }
-        if ( show1.title < show2.title ){
-          return 1;
-        }
-        return 0;
-       });
-      renderAll(showData)
-    break;
-    case 'Oldest-Recent':
-      showData.sort((show1, show2) => {
-        if ( show1.updated < show2.updated ){
-          return -1;
-        }
-        if ( show1.updated > show2.updated ){
-          return 1;
-        }
-        return 0;
-      });
-      renderAll(showData)
-    break;
-    case 'Recent-Oldest':
-      showData.sort((show1, show2) => {
-        if ( show1.updated > show2.updated ){
-          return -1;
-        }
-        if ( show1.updated < show2.updated ){
-          return 1;
-        }
-        return 0;
-      });
-      renderAll(showData)
-    break;
-  }
-}
-
 export function onChangeFavouriteSort (event) {
   event.preventDefault();
   let data = loadData()

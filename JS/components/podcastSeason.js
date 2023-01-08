@@ -26,9 +26,10 @@ export class Season extends LitElement {
       .wrapper {
         display: flex;
         flex-direction: column;
-        border: 1px solid red;
+        border: 1px solid white;
         border-radius: 5px;
         margin-top: 5px;
+        background-color: rgb(36, 36, 36);
 
       }
 

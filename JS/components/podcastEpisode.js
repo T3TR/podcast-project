@@ -27,7 +27,9 @@ export class Episode extends LitElement {
     .wrapper {
       display: flex;
       flex-direction: column;
-      border: 1px solid green;
+      background: rgb(80, 80, 80);
+      border: 1px solid black;
+      border-radius: 5px;
       margin-top: 5px;
       padding: 0;
     }
